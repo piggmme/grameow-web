@@ -121,21 +121,27 @@ import Layout from '../layouts/Layout.astro';
   <section class="levels" data-nav-bg="surface">
     <div class="levels-inner">
       <h2 class="section-title">나에게 맞는 레벨로 시작하세요</h2>
-      <div class="level-cards">
-        <div class="level-card" style="background: #6ba3d615; border: 1px solid #6ba3d630;">
-          <div class="level-dot" style="background: var(--color-level-beginner)"></div>
-          <h3 class="level-name">초급</h3>
-          <p class="level-desc">be동사, 현재시제 등<br />기초 문법부터 차근차근</p>
+      <div class="level-accordion" id="level-accordion">
+        <div class="level-card" data-level="BEGINNER" data-color="#6ba3d6" style="border: 1px solid #6ba3d630;">
+          <div class="level-card-header" style="background: #6ba3d615;">
+            <h3 class="level-name">🌱 초급</h3>
+            <p class="level-desc">be동사, 현재시제 등 기초 문법부터 차근차근</p>
+          </div>
+          <div class="level-chapters"></div>
         </div>
-        <div class="level-card" style="background: #7eb87e15; border: 1px solid #7eb87e30;">
-          <div class="level-dot" style="background: var(--color-level-intermediate)"></div>
-          <h3 class="level-name">중급</h3>
-          <p class="level-desc">현재완료, 관계대명사 등<br />실용 문법을 익히기</p>
+        <div class="level-card" data-level="INTERMEDIATE" data-color="#7eb87e" style="border: 1px solid #7eb87e30;">
+          <div class="level-card-header" style="background: #7eb87e15;">
+            <h3 class="level-name">📚 중급</h3>
+            <p class="level-desc">현재완료, 관계대명사 등 실용 문법을 익히기</p>
+          </div>
+          <div class="level-chapters"></div>
         </div>
-        <div class="level-card" style="background: #e8917f15; border: 1px solid #e8917f30;">
-          <div class="level-dot" style="background: var(--color-level-advanced)"></div>
-          <h3 class="level-name">고급</h3>
-          <p class="level-desc">가정법, 분사구문 등<br />고급 표현까지 완성</p>
+        <div class="level-card" data-level="ADVANCED" data-color="#e8917f" style="border: 1px solid #e8917f30;">
+          <div class="level-card-header" style="background: #e8917f15;">
+            <h3 class="level-name">🎓 고급</h3>
+            <p class="level-desc">가정법, 분사구문 등 고급 표현까지 완성</p>
+          </div>
+          <div class="level-chapters"></div>
         </div>
       </div>
     </div>
@@ -172,6 +178,62 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </footer>
 <script>
+  // --- Curriculum Accordion ---
+  const LEVEL_COLORS: Record<string, string> = {
+    BEGINNER: '#6ba3d6',
+    INTERMEDIATE: '#7eb87e',
+    ADVANCED: '#e8917f',
+  };
+
+  interface Chapter {
+    id: number;
+    title: string;
+    level: string;
+    stages: { lessons: { id: number }[] }[];
+  }
+
+  const levelCards = document.querySelectorAll<HTMLElement>('.level-card');
+
+  // API에서 목차 로드
+  async function loadCurriculum() {
+    try {
+      const res = await fetch('https://grameow-server-production.up.railway.app/curriculum/full');
+      const chapters: Chapter[] = await res.json();
+
+      const grouped: Record<string, Chapter[]> = {};
+      for (const ch of chapters) {
+        if (!grouped[ch.level]) grouped[ch.level] = [];
+        grouped[ch.level].push(ch);
+      }
+
+      levelCards?.forEach(card => {
+        const level = card.dataset.level || '';
+        const color = LEVEL_COLORS[level] || '#999';
+        const levelChapters = grouped[level] || [];
+        const chaptersEl = card.querySelector('.level-chapters')!;
+
+        chaptersEl.innerHTML = `
+          <div class="level-chapters-inner">
+            ${levelChapters.map(ch => {
+              const lessonCount = ch.stages.reduce((s, st) => s + st.lessons.length, 0);
+              return `
+                <div class="chapter-row">
+                  <div class="chapter-title">${ch.title}</div>
+                  <div class="chapter-lessons">${lessonCount}개 레슨</div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `;
+      });
+    } catch {
+      // 실패 시 카드 UI 유지, 아코디언 클릭해도 빈 상태
+    }
+  }
+
+  loadCurriculum();
+
+  // --- Nav background ---
   const nav = document.getElementById('nav');
   const sections = document.querySelectorAll('[data-nav-bg]');
 
@@ -427,6 +489,10 @@ import Layout from '../layouts/Layout.astro';
     margin-bottom: 48px;
   }
 
+</style>
+
+<style is:global>
+  /* Fallback cards */
   .level-cards {
     display: flex;
     gap: 24px;
@@ -435,17 +501,10 @@ import Layout from '../layouts/Layout.astro';
 
   .level-card {
     flex: 1;
-    max-width: 100%;
-    padding: 36px 28px;
-    background: var(--color-bg);
     border-radius: 20px;
-    text-align: center;
   }
 
-  .level-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
+  .level-card .level-dot {
     margin: 0 auto 16px;
   }
 
@@ -461,6 +520,85 @@ import Layout from '../layouts/Layout.astro';
     line-height: 1.6;
   }
 
+  /* Accordion */
+  .level-accordion {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  @media (max-width: 768px) {
+    .level-accordion {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .level-card {
+      width: 100%;
+      max-width: 400px;
+    }
+
+  }
+
+  .level-card {
+    flex: 1;
+    border-radius: 20px;
+    overflow: hidden;
+    background: var(--color-surface);
+  }
+
+  .level-card-header {
+    padding: 20px;
+  }
+
+  .level-name {
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 2px;
+    text-align: left;
+  }
+
+  .level-desc {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    word-break: keep-all;
+    text-align: left;
+  }
+
+
+
+  .level-chapters {
+    padding: 12px 16px 14px;
+    text-align: left;
+  }
+
+
+  .chapter-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 4px 0;
+  }
+
+  .chapter-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .chapter-lessons {
+    font-size: 13px;
+    color: var(--color-text-tertiary);
+    flex-shrink: 0;
+    margin-left: 8px;
+  }
+</style>
+
+<style>
   /* Download CTA */
   .download {
     padding: 100px 24px;
@@ -623,6 +761,7 @@ import Layout from '../layouts/Layout.astro';
       max-width: 400px;
       width: 100%;
     }
+
 
     .download-title {
       font-size: 28px;
