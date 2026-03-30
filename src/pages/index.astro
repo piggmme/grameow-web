@@ -41,10 +41,10 @@ import Layout from '../layouts/Layout.astro';
 
   <!-- Features -->
   <section class="features" data-nav-bg="bg">
-    <!-- Feature 1 -->
+    <!-- Feature 1: 커리큘럼 -->
     <div class="feature-row">
       <div class="feature-image">
-        <img src="/images/blue-pose2.png" alt="레벨별 학습" />
+        <div class="phone-mockup"><img src="/images/demo-curriculum.png" alt="커리큘럼 화면" class="phone-screen" /></div>
       </div>
       <div class="feature-text">
         <span class="feature-badge badge-blue">체계적인 커리큘럼</span>
@@ -56,13 +56,43 @@ import Layout from '../layouts/Layout.astro';
       </div>
     </div>
 
-    <!-- Feature 2 -->
+    <!-- Feature 2: 수업 -->
     <div class="feature-row reverse">
       <div class="feature-image">
-        <img src="/images/green-pose3.png" alt="퀴즈" />
+        <div class="phone-mockup"><img src="/images/demo-class.png" alt="수업 화면" class="phone-screen" /></div>
       </div>
       <div class="feature-text">
-        <span class="feature-badge badge-green">다양한 퀴즈</span>
+        <span class="feature-badge badge-green">알기 쉬운 수업</span>
+        <h2 class="feature-title">핵심만 담은<br />간결한 문법 설명</h2>
+        <p class="feature-desc">
+          어렵고 복잡한 문법도 한눈에 이해할 수 있도록
+          핵심 내용을 카드 형태로 정리했습니다.
+        </p>
+      </div>
+    </div>
+
+    <!-- Feature 3: 예문 -->
+    <div class="feature-row">
+      <div class="feature-image">
+        <div class="phone-mockup"><img src="/images/demo-example.png" alt="예문 화면" class="phone-screen" /></div>
+      </div>
+      <div class="feature-text">
+        <span class="feature-badge badge-peach">실전 예문</span>
+        <h2 class="feature-title">실생활에서 바로 쓰는<br />예문과 해설</h2>
+        <p class="feature-desc">
+          배운 문법이 실제로 어떻게 쓰이는지
+          풍부한 예문과 상세한 해설로 확인하세요.
+        </p>
+      </div>
+    </div>
+
+    <!-- Feature 4: 퀴즈 -->
+    <div class="feature-row reverse">
+      <div class="feature-image">
+        <div class="phone-mockup"><img src="/images/demo-quiz.png" alt="퀴즈 화면" class="phone-screen" /></div>
+      </div>
+      <div class="feature-text">
+        <span class="feature-badge badge-blue">다양한 퀴즈</span>
         <h2 class="feature-title">4지선다, 빈칸 채우기,<br />순서 배열까지</h2>
         <p class="feature-desc">
           다양한 유형의 퀴즈로 문법을 확실하게 익히세요.
@@ -71,13 +101,13 @@ import Layout from '../layouts/Layout.astro';
       </div>
     </div>
 
-    <!-- Feature 3 -->
+    <!-- Feature 5: 진행도 -->
     <div class="feature-row">
       <div class="feature-image">
-        <img src="/images/peach-pose4.png" alt="학습 기록" />
+        <div class="phone-mockup"><img src="/images/demo-home.png" alt="결과 화면" class="phone-screen" /></div>
       </div>
       <div class="feature-text">
-        <span class="feature-badge badge-peach">학습 기록</span>
+        <span class="feature-badge badge-green">학습 기록</span>
         <h2 class="feature-title">매일의 성장을<br />한눈에 확인</h2>
         <p class="feature-desc">
           학습 이력과 정답률을 추적하고,
@@ -312,6 +342,24 @@ import Layout from '../layouts/Layout.astro';
     width: 280px;
     height: 280px;
     object-fit: contain;
+  }
+
+  .feature-image .phone-mockup {
+    width: 300px;
+    background: #1a1a1a;
+    border-radius: 46px;
+    padding: 7px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+  }
+
+  .phone-mockup .phone-screen {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 40px;
+    aspect-ratio: 1206 / 2622;
+    object-fit: cover;
   }
 
   .feature-text {
@@ -551,6 +599,15 @@ import Layout from '../layouts/Layout.astro';
     .feature-image img {
       width: 200px;
       height: 200px;
+    }
+
+    .feature-image .phone-mockup {
+      width: 240px;
+      border-radius: 38px;
+    }
+
+    .phone-mockup .phone-screen {
+      border-radius: 32px;
     }
 
     .feature-title {
