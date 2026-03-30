@@ -27,14 +27,11 @@ import Layout from '../layouts/Layout.astro';
           탄탄한 기초 위에 세우는 진짜 영어 실력, 그래뮤와 시작하세요.
         </p>
         <div class="hero-cta desktop-only">
-          <a href="#download" class="btn-primary">무료로 시작하기</a>
+          <a href="#download" class="btn-primary">지금 시작하기</a>
         </div>
       </div>
-      <div class="hero-image">
-        <img src="/images/peach-pose1.png" alt="Grameow 마스코트" />
-      </div>
       <div class="hero-cta mobile-only">
-        <a href="#download" class="btn-primary">무료로 시작하기</a>
+        <a href="#download" class="btn-primary">지금 시작하기</a>
       </div>
     </div>
   </section>
@@ -305,7 +302,8 @@ import Layout from '../layouts/Layout.astro';
   .hero {
     padding: 120px 24px 80px;
     overflow: hidden;
-    background: var(--color-surface);
+    background: var(--color-surface) url('/images/main-cat.png') no-repeat right bottom;
+    background-size: 800px auto;
     scroll-snap-align: start;
     min-height: 100vh;
     display: flex;
@@ -314,7 +312,8 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .hero-inner {
-    max-width: 1080px;
+    max-width: 960px;
+    width: 100%;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -703,8 +702,19 @@ import Layout from '../layouts/Layout.astro';
   @media (max-width: 768px) {
     .hero-inner {
       flex-direction: column;
-      text-align: center;
-      gap: 40px;
+      text-align: left;
+      align-items: flex-start;
+      gap: 24px;
+    }
+
+    .hero-cta {
+      margin-top: 0;
+    }
+
+    .hero-cta .btn-primary {
+      padding: 12px 28px;
+      font-size: 15px;
+      border-radius: 12px;
     }
 
     .desktop-only {
@@ -719,13 +729,14 @@ import Layout from '../layouts/Layout.astro';
       font-size: 32px;
     }
 
-    .hero-desc {
-      font-size: 16px;
+    .hero {
+      background-size: 90vw auto !important;
+      align-items: flex-start;
+      justify-content: flex-start;
     }
 
-    .hero-image img {
-      width: 240px;
-      height: 240px;
+    .hero-desc {
+      font-size: 16px;
     }
 
     .feature-row,
