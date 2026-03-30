@@ -1,23 +1,77 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Grameow - 고양이와 함께하는 영어 문법 학습',
+  description = '귀여운 고양이 마스코트와 함께 영어 문법을 재미있게 배워보세요. 레벨별 맞춤 커리큘럼으로 체계적인 학습이 가능합니다.',
+} = Astro.props;
+---
+
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link
+      href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2/fonts/variable/woff2/SUIT-Variable.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <slot />
+  </body>
 </html>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+<style is:global>
+  :root {
+    --color-text: #3d3934;
+    --color-text-secondary: #787370;
+    --color-text-tertiary: #b0ada8;
+    --color-bg: #f7f6f3;
+    --color-surface: #ffffff;
+    --color-border: #e8e6e1;
+    --color-peach: #f9c0b4;
+    --color-green: #abd8ab;
+    --color-blue: #c8dcf2;
+    --color-level-beginner: #6ba3d6;
+    --color-level-intermediate: #7eb87e;
+    --color-level-advanced: #e8917f;
+    --color-cta: #3d3934;
+    --font-family: 'SUIT Variable', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-snap-type: y mandatory;
+  }
+
+  body {
+    font-family: var(--font-family);
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
 </style>
