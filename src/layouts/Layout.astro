@@ -5,8 +5,8 @@ interface Props {
 }
 
 const {
-  title = 'Grameow - 고양이와 함께하는 영어 문법 학습',
-  description = '귀여운 고양이 마스코트와 함께 영어 문법을 재미있게 배워보세요. 레벨별 맞춤 커리큘럼으로 체계적인 학습이 가능합니다.',
+  title = 'Grameow - 그래뮤와 함께하는 영어 문법 학습',
+  description = '영어의 기본이 되는 문법, 탄탄한 기초 위에 세우는 진짜 영어 실력. 18개 챕터, 100개 이상의 레슨으로 구성된 체계적인 커리큘럼.',
 } = Astro.props;
 ---
 
@@ -15,10 +15,17 @@ const {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/images/peach2.png" />
+    <link rel="apple-touch-icon" href="/images/app-icon.png" />
     <meta name="description" content={description} />
+    <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:image" content="/images/app-icon.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="/images/app-icon.png" />
     <title>{title}</title>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" />
     <link
