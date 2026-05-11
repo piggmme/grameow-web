@@ -26,6 +26,7 @@ const {
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content="/images/app-icon.png" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site).href} />
     <title>{title}</title>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" />
     <link

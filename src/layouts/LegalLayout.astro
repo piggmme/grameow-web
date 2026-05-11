@@ -17,6 +17,7 @@ const pageDesc = frontmatter?.description || description || '';
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/images/peach2.png" />
     <meta name="description" content={pageDesc} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site).href} />
     <title>{pageTitle} - Grameow</title>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
