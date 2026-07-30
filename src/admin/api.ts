@@ -109,6 +109,15 @@ export const api = {
       method: 'PATCH',
       body: JSON.stringify({ displayOrder }),
     }),
+
+  getAppConfig: () =>
+    request<Record<string, string>>('/app/config'),
+
+  updateAppConfig: (key: string, value: string) =>
+    request<{ key: string; value: string }>('/admin/app-config', {
+      method: 'PATCH',
+      body: JSON.stringify({ key, value }),
+    }),
 };
 
 export type AdminLesson = {
