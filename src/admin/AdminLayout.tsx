@@ -45,6 +45,7 @@ export default function AdminLayout({children}: {children: React.ReactNode}) {
         </div>
         <nav style={styles.nav}>
           <a href="/admin/users" style={styles.navLink}>사용자</a>
+          <a href="/admin/curriculum" style={styles.navLink}>커리큘럼</a>
         </nav>
         <div style={styles.userBox}>
           <span style={styles.userEmail}>{email}</span>

@@ -100,6 +100,40 @@ export const api = {
     request<{ message: string }>(`/admin/users/${id}`, {
       method: 'DELETE',
     }),
+
+  listChapters: () =>
+    request<AdminChapter[]>('/admin/chapters'),
+
+  updateChapterDisplayOrder: (id: number, displayOrder: number) =>
+    request<AdminChapter>(`/admin/chapters/${id}/display-order`, {
+      method: 'PATCH',
+      body: JSON.stringify({ displayOrder }),
+    }),
+};
+
+export type AdminLesson = {
+  id: number;
+  slug: string;
+  title: string;
+  order: number;
+};
+
+export type AdminStage = {
+  id: number;
+  slug: string;
+  title: string;
+  order: number;
+  lessons: AdminLesson[];
+};
+
+export type AdminChapter = {
+  id: number;
+  slug: string;
+  title: string;
+  level: 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED';
+  order: number;
+  displayOrder: number;
+  stages: AdminStage[];
 };
 
 export type AdminUser = {
