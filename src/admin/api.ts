@@ -110,6 +110,78 @@ export const api = {
       body: JSON.stringify({ displayOrder }),
     }),
 
+  createChapter: (dto: Omit<AdminChapter, 'id' | 'stages'>) =>
+    request<AdminChapter>('/admin/chapters', {
+      method: 'POST',
+      body: JSON.stringify(dto),
+    }),
+
+  updateChapter: (id: number, dto: Partial<Omit<AdminChapter, 'id' | 'slug' | 'stages'>>) =>
+    request<AdminChapter>(`/admin/chapters/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(dto),
+    }),
+
+  deleteChapter: (id: number) =>
+    request<{ message: string }>(`/admin/chapters/${id}`, { method: 'DELETE' }),
+
+  // Stages
+  listStages: (chapterId: number) =>
+    request<AdminStage[]>(`/admin/chapters/${chapterId}/stages`),
+
+  createStage: (dto: { slug: string; title: string; order: number; chapterId: number }) =>
+    request<AdminStage>('/admin/stages', {
+      method: 'POST',
+      body: JSON.stringify(dto),
+    }),
+
+  updateStage: (id: number, dto: { title?: string; order?: number }) =>
+    request<AdminStage>(`/admin/stages/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(dto),
+    }),
+
+  deleteStage: (id: number) =>
+    request<{ message: string }>(`/admin/stages/${id}`, { method: 'DELETE' }),
+
+  // Lessons
+  getLesson: (id: number) =>
+    request<AdminLessonDetail>(`/admin/lessons/${id}`),
+
+  createLesson: (dto: Omit<AdminLessonDetail, 'id' | 'cards'>) =>
+    request<AdminLessonDetail>('/admin/lessons', {
+      method: 'POST',
+      body: JSON.stringify(dto),
+    }),
+
+  updateLesson: (id: number, dto: Partial<Omit<AdminLessonDetail, 'id' | 'slug' | 'cards'>>) =>
+    request<AdminLessonDetail>(`/admin/lessons/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(dto),
+    }),
+
+  deleteLesson: (id: number) =>
+    request<{ message: string }>(`/admin/lessons/${id}`, { method: 'DELETE' }),
+
+  // Cards
+  listCards: (lessonId: number) =>
+    request<AdminCard[]>(`/admin/lessons/${lessonId}/cards`),
+
+  createCard: (dto: Omit<AdminCard, 'id'>) =>
+    request<AdminCard>('/admin/cards', {
+      method: 'POST',
+      body: JSON.stringify(dto),
+    }),
+
+  updateCard: (id: number, dto: Partial<Omit<AdminCard, 'id' | 'slug'>>) =>
+    request<AdminCard>(`/admin/cards/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(dto),
+    }),
+
+  deleteCard: (id: number) =>
+    request<{ message: string }>(`/admin/cards/${id}`, { method: 'DELETE' }),
+
   getAppConfig: () =>
     request<Record<string, string>>('/app/config'),
 
@@ -118,6 +190,40 @@ export const api = {
       method: 'PATCH',
       body: JSON.stringify({ key, value }),
     }),
+};
+
+export type CardType = 'FILL_BLANK' | 'MULTIPLE_CHOICE' | 'REORDER' | 'TRANSLATE';
+
+export type AdminCard = {
+  id: number;
+  slug: string;
+  type: CardType;
+  question: string;
+  answer: string;
+  alternativeAnswers: string[] | null;
+  hint: string | null;
+  options: string[] | null;
+  description: string | null;
+  explanation: string | null;
+  order: number;
+  lessonId: number;
+};
+
+export type LessonContent = string | { text: string; image: string };
+export type LessonExample = { en: string; ko: string; description?: string };
+
+export type AdminLessonDetail = {
+  id: number;
+  slug: string;
+  title: string;
+  grammarPoint: string;
+  contents: LessonContent[];
+  examples: LessonExample[];
+  tips: string[] | null;
+  imageUrl: string | null;
+  order: number;
+  stageId: number;
+  cards: AdminCard[];
 };
 
 export type AdminLesson = {
