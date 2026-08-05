@@ -9,6 +9,16 @@ const ROLE_LABEL: Record<string, string> = {
   ADMIN: '어드민',
 };
 
+function fmtDatetime(iso?: string | null) {
+  if (!iso) return null;
+  return iso.slice(0, 19).replace('T', ' ');
+}
+
+function fmtDate(iso?: string | null) {
+  if (!iso) return '-';
+  return iso.slice(0, 10);
+}
+
 export default function UserDetail({id}: {id: number}) {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -83,7 +93,8 @@ export default function UserDetail({id}: {id: number}) {
           <Row label="이메일" value={user.email} />
           <Row label="닉네임" value={user.nickname || '-'} />
           <Row label="로그인 방식" value={user.loginType} />
-          <Row label="가입일" value={user.createdAt?.slice(0, 19).replace('T', ' ')} />
+          <Row label="가입일" value={fmtDatetime(user.createdAt)} />
+          <Row label="최근 접속일" value={fmtDatetime(user.lastLoginAt) || '-'} />
         </Card>
 
         <Card title="학습 현황">
@@ -96,6 +107,19 @@ export default function UserDetail({id}: {id: number}) {
             value={`${user.stats.accuracy}% (${user.stats.correctCount}/${user.stats.totalCardResults})`}
           />
         </Card>
+
+        {user.stats.completedLessonList?.length > 0 && (
+          <Card title="완료한 레슨 목록">
+            <div style={styles.lessonList}>
+              {user.stats.completedLessonList.map((l: any) => (
+                <div key={l.lessonId} style={styles.lessonItem}>
+                  <span style={styles.lessonTitle}>{l.title || `레슨 #${l.lessonId}`}</span>
+                  <span style={styles.lessonDate}>{fmtDate(l.completedAt)}</span>
+                </div>
+              ))}
+            </div>
+          </Card>
+        )}
 
         <Card title="권한 관리">
           <div style={{display: 'flex', gap: 8, alignItems: 'center'}}>
@@ -208,4 +232,21 @@ const styles: Record<string, React.CSSProperties> = {
     cursor: 'pointer',
     fontWeight: 600,
   },
+  lessonList: {
+    display: 'flex',
+    flexDirection: 'column' as const,
+    gap: 6,
+    maxHeight: 240,
+    overflowY: 'auto' as const,
+  },
+  lessonItem: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '4px 0',
+    fontSize: 13,
+    borderBottom: '1px solid #F5F3F0',
+  },
+  lessonTitle: {color: '#3D3934'},
+  lessonDate: {color: '#B0ACA8', fontSize: 12, whiteSpace: 'nowrap' as const},
 };
