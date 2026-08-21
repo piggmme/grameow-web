@@ -746,20 +746,20 @@ function CardsTab({
     } catch (e: any) { alert(e?.message || '저장 실패'); }
   };
 
-  const createCard = async () => {
-    if (!newCard.type || !newCard.question || !newCard.answer) return;
+  const createCard = async (card: AdminCard) => {
+    if (!card.type || !card.question || !card.answer) return;
     try {
       await api.createCard({
         slug: nextCardSlug(lesson.slug, cards.length),
-        type: newCard.type as CardType,
-        question: newCard.question!,
-        answer: newCard.answer!,
-        alternativeAnswers: newCard.alternativeAnswers ?? null,
-        hint: newCard.hint ?? null,
-        options: newCard.options ?? null,
-        description: newCard.description ?? null,
-        explanation: newCard.explanation ?? null,
-        order: newCard.order ?? cards.length + 1,
+        type: card.type as CardType,
+        question: card.question,
+        answer: card.answer,
+        alternativeAnswers: card.alternativeAnswers ?? null,
+        hint: card.hint ?? null,
+        options: card.options ?? null,
+        description: card.description ?? null,
+        explanation: card.explanation ?? null,
+        order: card.order ?? cards.length + 1,
         lessonId: lesson.id,
       });
       setEditingId(null);
@@ -798,7 +798,7 @@ function CardsTab({
       ))}
 
       {editingId === 'new'
-        ? <CardForm card={newCard as AdminCard} onSave={createCard as any} onCancel={() => setEditingId(null)} isNew />
+        ? <CardForm card={newCard as AdminCard} onSave={createCard} onCancel={() => setEditingId(null)} isNew />
         : (
           <button
             style={{ ...s.saveBtn, marginTop: 12, background: '#7EB87E' }}
