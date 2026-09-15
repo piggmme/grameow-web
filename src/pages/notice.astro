@@ -57,6 +57,7 @@
       .notice-list { list-style: none; padding: 0; }
       .notice-item { display: block; padding: 18px 4px; border-bottom: 1px solid var(--color-border); text-decoration: none; color: var(--color-text); }
       .notice-item .n-title { font-size: 16px; font-weight: 600; }
+      .notice-item .n-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #E8917F; margin-left: 6px; vertical-align: middle; }
       .notice-item .n-date { font-size: 13px; color: var(--color-text-tertiary); margin-top: 4px; }
       .back-link { display: inline-block; margin-bottom: 20px; color: var(--color-accent); text-decoration: none; font-size: 14px; }
       .state { color: var(--color-text-tertiary); padding: 20px 0; }
@@ -113,12 +114,18 @@
             `<h1>공지사항</h1>` +
             `<div class="notice-list">` +
             list
-              .map(
-                (n) =>
+              .map((n, i) => {
+                // 가장 최신 공지이면서 작성일이 30일 이내면 dot
+                const isRecent =
+                  Date.now() - new Date(n.createdAt).getTime() <
+                  30 * 24 * 60 * 60 * 1000;
+                const dot = i === 0 && isRecent ? '<span class="n-dot"></span>' : '';
+                return (
                   `<a class="notice-item" href="/notice?id=${n.id}">` +
-                  `<div class="n-title">${esc(n.title)}</div>` +
-                  `<div class="n-date">${fmtDate(n.createdAt)}</div></a>`,
-              )
+                  `<div class="n-title">${esc(n.title)}${dot}</div>` +
+                  `<div class="n-date">${fmtDate(n.createdAt)}</div></a>`
+                );
+              })
               .join('') +
             `</div>`;
         } catch {
