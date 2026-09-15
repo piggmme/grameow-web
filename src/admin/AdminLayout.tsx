@@ -48,6 +48,7 @@ export default function AdminLayout({children}: {children: React.ReactNode}) {
           <a href="/admin/stats" style={styles.navLink}>통계</a>
           <a href="/admin/curriculum" style={styles.navLink}>커리큘럼</a>
           <a href="/admin/curriculum-editor" style={styles.navLink}>콘텐츠 편집</a>
+          <a href="/admin/notices" style={styles.navLink}>공지사항</a>
           <a href="/admin/app-config" style={styles.navLink}>앱 설정</a>
         </nav>
         <div style={styles.userBox}>

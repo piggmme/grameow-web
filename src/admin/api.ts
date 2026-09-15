@@ -202,6 +202,37 @@ export const api = {
       method: 'PATCH',
       body: JSON.stringify({ key, value }),
     }),
+
+  listNotices: () => request<AdminNotice[]>('/admin/notices'),
+
+  createNotice: (dto: {title: string; content: string; published?: boolean}) =>
+    request<AdminNotice>('/admin/notices', {
+      method: 'POST',
+      body: JSON.stringify(dto),
+    }),
+
+  updateNotice: (
+    id: number,
+    dto: {title?: string; content?: string; published?: boolean},
+  ) =>
+    request<AdminNotice>(`/admin/notices/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(dto),
+    }),
+
+  deleteNotice: (id: number) =>
+    request<{ message: string }>(`/admin/notices/${id}`, {
+      method: 'DELETE',
+    }),
+};
+
+export type AdminNotice = {
+  id: number;
+  title: string;
+  content: string;
+  published: boolean;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type CardType = 'FILL_BLANK' | 'MULTIPLE_CHOICE' | 'REORDER' | 'TRANSLATE';
