@@ -201,6 +201,9 @@ import Layout from '../layouts/Layout.astro';
         <img src="/images/peach2.png" alt="Grameow" class="footer-icon" />
         <span>Grameow</span>
       </div>
+      <a href="https://buymeacoffee.com/piggmme" class="footer-support" target="_blank" rel="noopener noreferrer">
+        ☕ 개발자에게 커피한잔 후원하기
+      </a>
       <p class="footer-copy">&copy; 2026 Grameow. All rights reserved.</p>
     </div>
   </footer>
@@ -717,6 +720,22 @@ import Layout from '../layouts/Layout.astro';
     width: 28px;
     height: 28px;
     object-fit: contain;
+  }
+
+  .footer-support {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    padding: 8px 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+
+  .footer-support:hover {
+    transform: translateY(-1px);
+    border-color: var(--color-text-tertiary);
   }
 
   .footer-copy {
