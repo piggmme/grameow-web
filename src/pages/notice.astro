@@ -55,7 +55,9 @@
       .legal-container blockquote { border-left: 3px solid var(--color-border); padding-left: 12px; color: var(--color-text-tertiary); margin: 10px 0; }
       /* 공지 목록 */
       .notice-list { list-style: none; padding: 0; }
-      .notice-item { display: block; padding: 18px 4px; border-bottom: 1px solid var(--color-border); text-decoration: none; color: var(--color-text); }
+      .notice-item { display: block; padding: 18px 4px; border-bottom: 1px solid var(--color-border); text-decoration: none; }
+      .notice-item, .notice-item:visited, .notice-item .n-title, .notice-item .n-date { color: var(--color-text); }
+      .notice-item .n-date { color: var(--color-text-tertiary); }
       .notice-item .n-title { font-size: 16px; font-weight: 600; }
       .notice-item .n-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #E8917F; margin-left: 6px; vertical-align: middle; }
       .notice-item .n-date { font-size: 13px; color: var(--color-text-tertiary); margin-top: 4px; }
