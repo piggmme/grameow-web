@@ -21,13 +21,14 @@ export default function UsersList() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [role, setRole] = useState('');
+  const [sortBy, setSortBy] = useState<'createdAt' | 'streak' | 'completedLessons'>('createdAt');
   const [page, setPage] = useState(1);
   const pageSize = 20;
 
   const load = async () => {
     setLoading(true);
     try {
-      const res = await api.listUsers({search, role, page, pageSize});
+      const res = await api.listUsers({search, role, page, pageSize, sortBy});
       setItems(res.items);
       setTotal(res.total);
     } catch (err: any) {
@@ -39,7 +40,7 @@ export default function UsersList() {
 
   useEffect(() => {
     load();
-  }, [page, role]);
+  }, [page, role, sortBy]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,6 +74,17 @@ export default function UsersList() {
             </option>
           ))}
         </select>
+        <select
+          value={sortBy}
+          onChange={(e) => {
+            setSortBy(e.target.value as typeof sortBy);
+            setPage(1);
+          }}
+          style={styles.select}>
+          <option value="createdAt">최신 가입순</option>
+          <option value="streak">연속 학습일순</option>
+          <option value="completedLessons">완료 수업순</option>
+        </select>
         <button type="submit" style={styles.searchBtn}>검색</button>
       </form>
 
@@ -89,6 +101,7 @@ export default function UsersList() {
               <th style={styles.th}>권한</th>
               <th style={styles.th}>로그인</th>
               <th style={styles.th}>Streak</th>
+              <th style={styles.th}>완료수업</th>
               <th style={styles.th}>가입일</th>
             </tr>
           </thead>
@@ -114,6 +127,7 @@ export default function UsersList() {
                 </td>
                 <td style={styles.td}>{u.loginType}</td>
                 <td style={styles.td}>{u.streakCount}</td>
+                <td style={styles.td}>{u.completedLessons ?? '-'}</td>
                 <td style={styles.td}>{u.createdAt?.slice(0, 10)}</td>
               </tr>
             ))}

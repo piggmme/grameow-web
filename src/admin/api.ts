@@ -61,12 +61,14 @@ export const api = {
     role?: string;
     page?: number;
     pageSize?: number;
+    sortBy?: 'createdAt' | 'streak' | 'completedLessons';
   }) => {
     const q = new URLSearchParams();
     if (params.search) q.set('search', params.search);
     if (params.role) q.set('role', params.role);
     if (params.page) q.set('page', String(params.page));
     if (params.pageSize) q.set('pageSize', String(params.pageSize));
+    if (params.sortBy) q.set('sortBy', params.sortBy);
     return request<{
       items: AdminUser[];
       total: number;
@@ -261,6 +263,7 @@ export type AdminUser = {
   loginType: 'email' | 'kakao' | 'google' | 'apple';
   streakCount: number;
   lastStudyDate: string | null;
+  completedLessons?: number;
   createdAt: string;
   updatedAt: string;
 };
