@@ -103,6 +103,16 @@ export const api = {
       method: 'DELETE',
     }),
 
+  getActiveUserStats: (days = 30) =>
+    request<{
+      totalUsers: number;
+      dau: number;
+      wau: number;
+      mau: number;
+      daily: Array<{ date: string; activeUsers: number }>;
+      signups: Array<{ date: string; count: number }>;
+    }>(`/admin/stats/active-users?days=${days}`),
+
   listChapters: () =>
     request<AdminChapter[]>('/admin/chapters'),
 
